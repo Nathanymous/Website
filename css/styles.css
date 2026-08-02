@@ -343,7 +343,6 @@ main {
 footer {
   padding: 2rem 1rem 1.6rem;
   background: var(--footer-bg);
-  border-top: 1px solid var(--border);
   text-align: center;
   transition: background 0.45s, border-color 0.45s;
 }

@@ -1,0 +1,414 @@
+/* ==========================================================================
+   Nathan Verkerk — Portfolio
+   Stylesheet
+
+   Structure:
+     1.  Reset
+     2.  Theme variables (light / dark)
+     3.  Base
+     4.  Header
+     5.  Blinking cursor
+     6.  Mode toggle (pill switch)
+     7.  Main content — list items
+     8.  Expandable code blocks
+     9.  Footer
+     10. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. RESET
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ==========================================================================
+   2. THEME VARIABLES
+
+   Light theme = personal mode (default).
+   Dark theme  = developer mode, applied via the .dev-mode class on <body>.
+   The accent green stays identical in both themes.
+   ========================================================================== */
+
+:root {
+  --bg:         #ffffff;
+  --text:       #111111;
+  --muted:      #666666;
+  --border:     #d8d8d8;
+  --expand-bg:  #f5f5f5;
+  --line-num:   #bbbbbb;
+  --footer-bg:  #f2f2f2;
+  --green:      #3ecf8e;   /* accent — same in both themes */
+}
+
+body.dev-mode {
+  --bg:         #0c0c0c;
+  --text:       #e0e0e0;
+  --muted:      #777777;
+  --border:     #2a2a2a;
+  --expand-bg:  #161616;
+  --line-num:   #444444;
+  --footer-bg:  #111111;
+}
+
+
+/* ==========================================================================
+   3. BASE
+   ========================================================================== */
+
+body {
+  font-family: 'Zodiak', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+
+  /* Sticky footer: main flexes to fill remaining space */
+  display: flex;
+  flex-direction: column;
+
+  transition: background 0.45s ease, color 0.45s ease;
+}
+
+
+/* ==========================================================================
+   4. HEADER
+   ========================================================================== */
+
+header {
+  padding: 2.2rem 2.5rem 1.2rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text);
+  transition: color 0.45s;
+}
+
+/* The green ">/" prefix.
+   Negative letter-spacing pulls > and / together, but it also applies
+   AFTER the slash — margin-right compensates so "N" isn't squashed. */
+header h1 .prefix {
+  color: var(--green);
+  letter-spacing: -0.05em;
+  margin-right: 0.09em;
+}
+
+
+/* ==========================================================================
+   5. BLINKING CURSOR
+   A thick bar sitting just below the baseline, like a terminal prompt.
+   Sized in em so it scales with the responsive header font.
+   ========================================================================== */
+
+.blink-cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.187em;
+  background: var(--green);
+  vertical-align: -0.12em;
+  margin-left: 0.06em;
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+
+/* ==========================================================================
+   6. MODE TOGGLE (PILL SWITCH)
+
+   Geometry (matters for alignment):
+     pill    130 x 60, 2.5px border → 125px inner width
+     knob    48px, inset 4px from the left
+     travel  69px → leaves an equal 4px gap on the right
+   ========================================================================== */
+
+.toggle-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0 1.8rem;
+}
+
+.toggle-pill {
+  position: relative;
+  width: 130px;
+  height: 60px;
+  border-radius: 60px;
+  background: var(--green);
+  border: 2.5px solid transparent;
+  box-shadow: 0 4px 18px rgba(62, 207, 142, 0.35);
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  transition: background 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+}
+
+/* Dev mode: black pill with a green outline */
+body.dev-mode .toggle-pill {
+  background: #000000;
+  border: 2.5px solid var(--green);
+  box-shadow: 0 4px 18px rgba(62, 207, 142, 0.2);
+}
+
+/* --- Faded background icon (shown on the half without the knob) --- */
+
+.pill-bg-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+
+/* 17px inset centres the icon exactly where the knob sits on that side */
+.pill-bg-chip   { right: 17px; opacity: 1; }
+.pill-bg-person { left:  17px; opacity: 0; }
+
+body.dev-mode .pill-bg-person { opacity: 1; }
+body.dev-mode .pill-bg-chip   { opacity: 0; }
+
+/* --- Sliding knob --- */
+
+.pill-circle {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #111;   /* icon colour, inherited via currentColor */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s;
+}
+
+body.dev-mode .pill-circle {
+  transform: translateX(69px);
+  background: var(--green);
+  color: #111;   /* dark icon reads well on green */
+}
+
+/* --- Icon inside the knob: show only the one for the current mode --- */
+
+.pill-circle-icon {
+  width: 24px;
+  height: 24px;
+  transition: color 0.4s;
+}
+
+.pill-circle-icon.icon-person { display: block; }
+.pill-circle-icon.icon-chip   { display: none; }
+
+body.dev-mode .pill-circle-icon.icon-person { display: none; }
+body.dev-mode .pill-circle-icon.icon-chip   { display: block; }
+
+
+/* ==========================================================================
+   7. MAIN CONTENT — LIST ITEMS
+   ========================================================================== */
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0.2rem 2.5rem 2.5rem;
+}
+
+/* Only the section matching the current mode is visible */
+.section        { display: none; }
+.section.active { display: block; }
+
+.item {
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.45s;
+}
+
+.item-label {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Green "/" prefix on non-expandable items */
+.prefix-slash {
+  color: var(--green);
+  font-family: 'Courier New', monospace;
+  font-size: 0.95em;
+  font-weight: 700;
+  margin-right: 0.1rem;
+  flex-shrink: 0;
+}
+
+/* Chevron on expandable items.
+   The Lucide chevron path fills only half of its 24x24 viewBox, so the
+   element is scaled to 1.4em for the visible arrow to match the text
+   cap height. Stroke is thinned to keep the weight balanced at that size. */
+.arrow-icon {
+  width: 1.4em;
+  height: 1.4em;
+  vertical-align: -0.35em;
+  margin-left: -0.28em;
+  margin-right: -0.32em;
+  flex-shrink: 0;
+  color: var(--green);
+  stroke-width: 1.7;
+  transition: color 0.4s;
+}
+
+/* Only the label is clickable — not the expanded body beneath it */
+.expandable .item-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.expandable .item-label:hover {
+  opacity: 0.7;
+}
+
+
+/* ==========================================================================
+   8. EXPANDABLE CODE BLOCKS
+   Styled like a code editor: monospace, gutter line numbers, green rule.
+   ========================================================================== */
+
+.expand-body {
+  display: none;
+  margin: 0.5rem 0 0.3rem 0.6rem;
+  padding: 0.7rem 1rem;
+  background: var(--expand-bg);
+  border-left: 2px solid var(--green);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.87rem;
+  line-height: 1.8;
+  transition: background 0.45s, border-color 0.45s;
+}
+
+.expand-body.open {
+  display: block;
+}
+
+.expand-body .line {
+  display: flex;
+  gap: 1.2rem;
+}
+
+/* Line-number gutter */
+.expand-body .ln {
+  min-width: 1.4rem;
+  text-align: right;
+  color: var(--line-num);
+  user-select: none;
+  flex-shrink: 0;
+  transition: color 0.45s;
+}
+
+/* Line content */
+.expand-body .lc {
+  color: var(--text);
+  transition: color 0.45s;
+}
+
+
+/* ==========================================================================
+   9. FOOTER
+   ========================================================================== */
+
+footer {
+  padding: 2rem 1rem 1.6rem;
+  background: var(--footer-bg);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  transition: background 0.45s, border-color 0.45s;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 1.4rem;
+}
+
+.footer-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.footer-links a:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+.footer-links img {
+  height: 38px;
+  width: auto;
+  transition: filter 0.45s;
+}
+
+/* LinkedIn + GitHub source files are white logos.
+   Invert to black on the light theme, leave white on the dark theme. */
+.icon-white-footer {
+  filter: brightness(0);
+}
+
+body.dev-mode .icon-white-footer {
+  filter: brightness(0) invert(1);
+}
+
+/* Credly source file is a dark logo — inverted for the dark theme */
+.icon-credly-footer {
+  filter: brightness(0);
+}
+
+body.dev-mode .icon-credly-footer {
+  filter: brightness(0) invert(0.85);
+}
+
+.copyright {
+  font-family: 'Zodiak', serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  transition: color 0.45s;
+}
+
+
+/* ==========================================================================
+   10. RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 500px) {
+  header { padding: 1.5rem 1.2rem 0.8rem; }
+  main   { padding: 0.2rem 1.2rem 1.8rem; }
+}

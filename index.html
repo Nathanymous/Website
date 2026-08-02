@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio van Nathan Verkerk — persoonlijk en development.">
+  <title>&gt;/NathanVerkerk</title>
+
+  <!-- Zodiak display font (Fontshare CDN) -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=zodiak@400,700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!--
+    ===========================================================================
+    HEADER
+    The ">/" prefix is green; a blinking bar after the name mimics a
+    terminal cursor. Both are styled in css/styles.css.
+    ===========================================================================
+  -->
+  <header>
+    <h1>
+      <span class="prefix">&gt;/</span>NathanVerkerk<span class="blink-cursor"></span>
+    </h1>
+  </header>
+
+
+  <!--
+    ===========================================================================
+    MODE TOGGLE
+    A pill-shaped switch with a sliding circular knob.
+      - Left  (person icon) = personal mode  → light theme
+      - Right (chip icon)   = developer mode → dark theme
+
+    Both icons exist in the DOM twice:
+      1. .pill-bg-icon    — sits in the empty half of the pill
+      2. .pill-circle-icon — sits inside the sliding knob
+    CSS shows/hides the correct pair based on the body.dev-mode class.
+    ===========================================================================
+  -->
+  <div class="toggle-wrap">
+    <div class="toggle-pill"
+         id="toggle"
+         role="switch"
+         tabindex="0"
+         aria-checked="false"
+         aria-label="Wissel tussen persoonlijke en developer modus">
+
+      <!-- Faded icon shown on the half the knob is NOT covering -->
+      <svg class="pill-bg-icon pill-bg-person" xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="10" r="3"/>
+        <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
+      </svg>
+
+      <svg class="pill-bg-icon pill-bg-chip" xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 20v2"/><path d="M12 2v2"/>
+        <path d="M17 20v2"/><path d="M17 2v2"/>
+        <path d="M2 12h2"/><path d="M2 17h2"/><path d="M2 7h2"/>
+        <path d="M20 12h2"/><path d="M20 17h2"/><path d="M20 7h2"/>
+        <path d="M7 20v2"/><path d="M7 2v2"/>
+        <rect x="4" y="4" width="16" height="16" rx="2"/>
+        <rect x="8" y="8" width="8" height="8" rx="1"/>
+      </svg>
+
+      <!-- Sliding knob; contains the icon for the ACTIVE mode -->
+      <div class="pill-circle">
+        <svg class="pill-circle-icon icon-person" xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="10" r="3"/>
+          <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
+        </svg>
+
+        <svg class="pill-circle-icon icon-chip" xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20v2"/><path d="M12 2v2"/>
+          <path d="M17 20v2"/><path d="M17 2v2"/>
+          <path d="M2 12h2"/><path d="M2 17h2"/><path d="M2 7h2"/>
+          <path d="M20 12h2"/><path d="M20 17h2"/><path d="M20 7h2"/>
+          <path d="M7 20v2"/><path d="M7 2v2"/>
+          <rect x="4" y="4" width="16" height="16" rx="2"/>
+          <rect x="8" y="8" width="8" height="8" rx="1"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!--
+    ===========================================================================
+    MAIN CONTENT
+    Two sections; only the one matching the current mode has .active.
+
+    Item types:
+      - Plain item      → "/Label"  (green slash prefix)
+      - Expandable item → ">Label"  (green chevron that rotates to a down
+        chevron on click, revealing a numbered code-style block)
+    ===========================================================================
+  -->
+  <main>
+
+    <!-- ─────────── PERSONAL (light mode) ─────────── -->
+    <section id="section-personal" class="section active" aria-label="Persoonlijk">
+
+      <div class="item">
+        <div class="item-label"><span class="prefix-slash">/</span>Videotechniek</div>
+      </div>
+
+      <!-- Expandable: only .item-label is clickable, not the body below it -->
+      <div class="item expandable">
+        <div class="item-label" data-expand>
+          <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>Theater
+        </div>
+        <div class="expand-body">
+          <div class="line"><span class="ln">0</span><span class="lc">Lorem ipsum dolor sit amet, consectetur adipiscing</span></div>
+          <div class="line"><span class="ln">1</span><span class="lc">elit. Sed do eiusmod tempor incididunt ut labore</span></div>
+          <div class="line"><span class="ln">2</span><span class="lc">et dolore magna aliqua. Ut enim ad minim veniam,</span></div>
+          <div class="line"><span class="ln">3</span><span class="lc">quis nostrud exercitation ullamco laboris nisi.</span></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-label"><span class="prefix-slash">/</span>Eftelingfanaat</div>
+      </div>
+
+    </section>
+
+
+    <!-- ─────────── DEVELOPER (dark mode) ─────────── -->
+    <section id="section-dev" class="section" aria-label="Development">
+
+      <div class="item">
+        <div class="item-label"><span class="prefix-slash">/</span>Projectmanagement</div>
+      </div>
+
+      <div class="item">
+        <div class="item-label"><span class="prefix-slash">/</span>Security</div>
+      </div>
+
+      <div class="item">
+        <div class="item-label"><span class="prefix-slash">/</span>Microsoft 365 &amp; Cloud</div>
+      </div>
+
+      <div class="item">
+        <div class="item-label"><span class="prefix-slash">/</span>NinjaOne</div>
+      </div>
+
+      <!-- Expandable: certificate list -->
+      <div class="item expandable">
+        <div class="item-label" data-expand>
+          <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>Acronis
+        </div>
+        <div class="expand-body">
+          <div class="line"><span class="ln">0</span><span class="lc">Naam certificaat 1</span></div>
+          <div class="line"><span class="ln">1</span><span class="lc">Naam certificaat 2</span></div>
+          <div class="line"><span class="ln">2</span><span class="lc">Naam certificaat 3</span></div>
+          <div class="line"><span class="ln">3</span><span class="lc">Naam certificaat 4</span></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-label"><span class="prefix-slash">/</span>Huntress</div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!--
+    ===========================================================================
+    FOOTER
+    Three social links + an auto-updating copyright year (set in js/script.js).
+    Logo colours are inverted per theme via CSS filters.
+    ===========================================================================
+  -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/nathanverkerk"
+         target="_blank" rel="noopener noreferrer" title="LinkedIn">
+        <img class="icon-white-footer" src="images/linkedin.png" alt="LinkedIn">
+      </a>
+
+      <a href="https://github.com/Nathanymous"
+         target="_blank" rel="noopener noreferrer" title="GitHub">
+        <img class="icon-white-footer" src="images/github.webp" alt="GitHub">
+      </a>
+
+      <a href="https://www.credly.com/users/nathan-verkerk/badges/credly"
+         target="_blank" rel="noopener noreferrer" title="Credly">
+        <img class="icon-credly-footer" src="images/credly.png" alt="Credly">
+      </a>
+    </div>
+
+    <!-- Year is injected by JS so it never goes stale -->
+    <p class="copyright">&#169; <span id="year"></span> Nathan Verkerk</p>
+  </footer>
+
+
+  <!-- Behaviour: theme switching, expand/collapse, copyright year -->
+  <script src="js/script.js"></script>
+
+</body>
+</html>

@@ -5,9 +5,10 @@
    Contents:
      1. Constants
      2. Copyright year
-     3. Mode toggle (personal <-> developer)
-     4. Expand / collapse items
-     5. Event wiring
+     3. Language picker
+     4. Mode toggle (personal <-> developer)
+     5. Expand / collapse items
+     6. Event wiring
    ========================================================================== */
 
 (function () {
@@ -21,7 +22,7 @@
      ======================================================================== */
 
   var CHEVRON_RIGHT = 'm9 18 6-6-6-6';   // collapsed  >
-  var CHEVRON_DOWN  = 'm6 9 6 6 6-6';    // expanded   v
+  var CHEVRON_DOWN = 'm6 9 6 6 6-6';    // expanded   v
 
   /** Tracks the current theme. false = personal, true = developer. */
   var isDev = false;
@@ -39,9 +40,23 @@
     }
   }
 
+  /* ========================================================================
+     3. LANGUAGE PICKER
+
+     Each language has its own static page. The picker follows the language
+     segment in the URL so a browser back/forward restore stays accurate.
+     ======================================================================== */
+
+  function syncLanguagePicker() {
+    var languageSelect = document.getElementById('language-select');
+    if (languageSelect) {
+      languageSelect.value = /\/en(?:\/|\/index\.html)?$/.test(window.location.pathname) ? 'en' : 'nl';
+    }
+  }
+
 
   /* ========================================================================
-     3. MODE TOGGLE
+     4. MODE TOGGLE
 
      Flipping `body.dev-mode` drives every visual change through CSS:
      colour variables, pill styling, and which toggle icon is displayed.
@@ -70,7 +85,7 @@
 
 
   /* ========================================================================
-     4. EXPAND / COLLAPSE
+     5. EXPAND / COLLAPSE
      ======================================================================== */
 
   /**
@@ -113,13 +128,22 @@
 
 
   /* ========================================================================
-     5. EVENT WIRING
+     6. EVENT WIRING
      Listeners are attached here rather than via inline onclick attributes,
      keeping markup and behaviour separate.
      ======================================================================== */
 
   function init() {
     setCopyrightYear();
+
+    var languageSelect = document.getElementById('language-select');
+    if (languageSelect) {
+      languageSelect.addEventListener('change', function () {
+        window.location.assign(new URL('../' + languageSelect.value + '/', window.location.href).href);
+      });
+    }
+
+    syncLanguagePicker();
 
     // Mode toggle — click plus keyboard support for the role="switch"
     var toggle = document.getElementById('toggle');
@@ -150,5 +174,8 @@
   } else {
     init();
   }
+
+  // A browser may restore old form values from its back/forward cache.
+  window.addEventListener('pageshow', syncLanguagePicker);
 
 })();

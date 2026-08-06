@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="nl">
+<link rel="alternate" hreflang="nl" href="https://nathanverkerk.com/nl/">
+<link rel="alternate" hreflang="en" href="https://nathanverkerk.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://nathanverkerk.com/">
+<link rel="canonical" href="https://nathanverkerk.com/">
 
 <head>
     <title>&gt;/NathanVerkerk</title>
@@ -10,9 +14,8 @@
     <meta name="robots" content="index,nofollow">
 
   <script>
-    // English browsers start on /en/; all other languages use /nl/.
-    var preferredLanguage = navigator.language.toLowerCase().indexOf('en') === 0 ? 'en' : 'nl';
-    window.location.replace(preferredLanguage + '/');
+    // Redirect to the Dutch version of the site
+    window.location.replace('nl/');
   </script>
 </head>
 

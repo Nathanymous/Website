@@ -15,7 +15,6 @@
      10. Responsive
    ========================================================================== */
 
-
 /* ==========================================================================
    1. RESET
    ========================================================================== */
@@ -27,7 +26,6 @@
   margin: 0;
   padding: 0;
 }
-
 
 /* ==========================================================================
    2. THEME VARIABLES
@@ -59,7 +57,6 @@ body.dev-mode {
   --footer-bg: #111111;
 }
 
-
 /* ==========================================================================
    3. BASE
    ========================================================================== */
@@ -76,7 +73,6 @@ body {
 
   transition: background 0.45s ease, color 0.45s ease;
 }
-
 
 /* ==========================================================================
    4. HEADER
@@ -159,7 +155,6 @@ header h1 .prefix {
   border: 0;
 }
 
-
 /* ==========================================================================
    5. BLINKING CURSOR
    A thick bar sitting just below the baseline, like a terminal prompt.
@@ -187,7 +182,6 @@ header h1 .prefix {
     opacity: 0;
   }
 }
-
 
 /* ==========================================================================
    6. MODE TOGGLE (PILL SWITCH)
@@ -310,7 +304,6 @@ body.dev-mode .pill-circle-icon.icon-chip {
   display: block;
 }
 
-
 /* ==========================================================================
    7. MAIN CONTENT — LIST ITEMS
    ========================================================================== */
@@ -383,7 +376,6 @@ main {
   opacity: 0.7;
 }
 
-
 /* ==========================================================================
    8. EXPANDABLE CODE BLOCKS
    Styled like a code editor: monospace, gutter line numbers, green rule.
@@ -410,6 +402,15 @@ main {
   gap: 1.2rem;
 }
 
+/* Allows for multi-line paragraphs in the code block, with a gap between them. */
+.expand-body .line .text {
+  flex: 1;
+}
+
+.expand-body .line .text p + p {
+  margin-top: 1rem;
+}
+
 /* Line-number gutter */
 .expand-body .ln {
   min-width: 1.4rem;
@@ -425,7 +426,6 @@ main {
   color: var(--text);
   transition: color 0.45s;
 }
-
 
 /* ==========================================================================
    9. FOOTER
@@ -492,7 +492,6 @@ body.dev-mode .icon-credly-footer {
   color: var(--muted);
   transition: color 0.45s;
 }
-
 
 /* ==========================================================================
    10. RESPONSIVE

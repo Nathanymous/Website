@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="alternate" hreflang="nl" href="https://nathanverkerk.com/nl/">
+<link rel="alternate" hreflang="en" href="https://nathanverkerk.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://nathanverkerk.com/">
+<link rel="canonical" href="https://nathanverkerk.com/en">
+
+<head>
+    <title>&gt;/NathanVerkerk</title>
+    <meta name="description" content="Website of Nathan Verkerk">
+    <meta name="author" content="Nathan Verkerk">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="robots" content="index,nofollow">
+
+    <!-- Zodiak display font (Fontshare CDN) -->
+    <link rel="preconnect" href="https://api.fontshare.com">
+    <link href="https://api.fontshare.com/v2/css?f[]=zodiak@400,700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <!--
+    ===========================================================================
+    HEADER
+    The ">/" prefix is green; a blinking bar after the name mimics a
+    terminal cursor. Both are styled in css/styles.css.
+    ===========================================================================
+  -->
+
+    <header>
+        <h1>
+            <span class="prefix">&gt;/</span>NathanVerkerk<span class="blink-cursor"></span>
+        </h1>
+        <div class="language-picker"><label class="sr-only" for="language-select">Taal kiezen</label>
+            <svg class="language-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+            </svg>
+            <select id="language-select" aria-label="Taal kiezen">
+                <option value="nl">Nederlands</option>
+                <option value="en" selected>English</option>
+            </select>
+        </div>
+    </header>
+
+    <!--
+    ===========================================================================
+    MODE TOGGLE
+    A pill-shaped switch with a sliding circular knob.
+      - Left  (person icon) = personal mode  → light theme
+      - Right (chip icon)   = developer mode → dark theme
+
+    Both icons exist in the DOM twice:
+      1. .pill-bg-icon    — sits in the empty half of the pill
+      2. .pill-circle-icon — sits inside the sliding knob
+    CSS shows/hides the correct pair based on the body.dev-mode class.
+    ===========================================================================
+  -->
+
+    <div class="toggle-wrap">
+        <div class="toggle-pill" id="toggle" role="switch" tabindex="0" aria-checked="false"
+            aria-label="Wissel tussen persoonlijke en developer modus">
+
+            <!-- Faded icon shown on the half the knob is NOT covering -->
+            <svg class="pill-bg-icon pill-bg-person" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="10" r="3" />
+                <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+            </svg>
+
+            <svg class="pill-bg-icon pill-bg-chip" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M12 20v2M12 2v2M17 20v2M17 2v2M2 12h2M2 17h2M2 7h2M20 12h2M20 17h2M20 7h2M7 20v2M7 2v2" />
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+                <rect x="8" y="8" width="8" height="8" rx="1" />
+            </svg>
+
+            <!-- Sliding knob; contains the icon for the ACTIVE mode -->
+            <div class="pill-circle"><svg class="pill-circle-icon icon-person" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="10" r="3" />
+                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+                </svg>
+                <svg class="pill-circle-icon icon-chip" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M12 20v2M12 2v2M17 20v2M17 2v2M2 12h2M2 17h2M2 7h2M20 12h2M20 17h2M20 7h2M7 20v2M7 2v2" />
+                    <rect x="4" y="4" width="16" height="16" rx="2" />
+                    <rect x="8" y="8" width="8" height="8" rx="1" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    ===========================================================================
+    MAIN CONTENT
+    Two sections; only the one matching the current mode has .active.
+
+    Item types:
+      - Plain item      → "/Label"  (green slash prefix)
+      - Expandable item → ">Label"  (green chevron that rotates to a down
+        chevron on click, revealing a numbered code-style block)
+    ===========================================================================
+  -->
+
+    <main>
+        <!-- ─────────── PERSONAL (light mode) ─────────── -->
+        <section id="section-personal" class="section active" aria-label="Persoonlijk">
+
+            <!--Theatre-->
+            <div class="item expandable">
+                <div class="item-label" data-expand><svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>Theatre</div>
+                <div class="expand-body">
+                    <div class="line">
+                        <div class="text">
+                            <p>
+                                I’ve been active in a local theater group for several years now. For as long as I can
+                                remember, I’ve loved acting. On stage, I can step away from the
+                                real world for a moment and become someone completely different. Playing a character,
+                                behaving in a
+                                way that doesn’t suit me at all, and always trying something new—that’s exactly what I
+                                love about theater.
+                            </p>
+                            <p>
+                                Over the past few years, I’ve had the chance to play a wide variety of roles. From a
+                                grumpy campground owner to a camel: no role is too outlandish for me.
+                                For me, theater is a wonderful way to be creative, challenge myself,
+                                and, above all, have a lot of fun. I hope to be able to keep
+                                doing this for many years to come.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Music-->
+            <div class="item expandable">
+                <div class="item-label" data-expand>
+                    <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>Music
+                </div>
+                <div class="expand-body">
+                    <div class="line">
+                        <div class="text">
+                            <p>
+                                Music has played a major role in my life for over 14 years. I play the
+                                flugelhorn in a music club, a hobby that lets me channel a lot of energy and have a lot
+                                of fun.
+                                For me, making music is more than just playing on my own: it’s the rehearsing together,
+                                performing, and working toward a big project that makes it so much fun.
+                            </p>
+                            <p>
+                                Over the past few years, I've had the opportunity to work on many wonderful projects.
+                                From a concert with the
+                                "Zandtovenaar" to a major concert celebrating the 700th anniversary of my home town
+                                Nieuw-Lekkerland.
+                            </p>
+                            <p>
+                                What I love about music is that you can create something together that you could never
+                                create on your own. And the bigger and more challenging the project, the more I enjoy
+                                it.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Videography-->
+            <div class="item expandable">
+                <div class="item-label" data-expand>
+                    <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>Videography
+                </div>
+                <div class="expand-body">
+                    <div class="line">
+                        <div class="text">
+                            <p>
+                                In addition to what happens on stage, I also find it interesting to work behind the
+                                scenes
+                                on technical aspects. At church, I help organize the livestreams together with others,
+                                and I’m in charge of the various aspects of video technology.
+                                Among other things, I work with Blackmagic ATEM and various cameras.
+                            </p>
+                            <p>
+                                At the Grafisch Lyceum Rotterdam, I got hooked on this
+                                hobby during my studies, and ever since, I’ve loved doing it. From operating and
+                                switching between shots
+                                during a livestream to connecting and configuring
+                                equipment: I enjoy understanding how it all works together.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Efteling Enthusiast-->
+            <div class="item expandable">
+                <div class="item-label" data-expand>
+                    <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>Efteling Enthusiast
+                </div>
+                <div class="expand-body">
+                    <div class="line">
+                        <div class="text">
+                            <p>
+                                To me, Efteling is more than just an amusement park. I’m a huge fan of everything
+                                that’s conceived and built there: from attractions and roller coasters to stories, sets,
+                                and
+                                technology.
+                            </p>
+                            <p>
+                                Thanks to my membership, I visit the park regularly. Every time, there’s always
+                                something new to
+                                discover. Whether it’s a detail in an attraction that I’d never noticed before,
+                                a new show, or simply a day spent enjoying the atmosphere.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────── DEVELOPER (dark mode) ─────────── -->
+        <section id="section-dev" class="section" aria-label="Development">
+
+            <!--Education-->
+            <div class="item expandable">
+                <div class="item-label" data-expand><svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>Education</div>
+                <div class="expand-body">
+                    <div class="line">I have completed several studies in the field of IT</div>
+                    <div class="line"><span class="ln">0</span><span class="lc">"MBO Netwerk en Mediabeheer" at
+                            <a href="https://www.glr.nl/opleidingen/ict-en-mediatechnologie">Grafisch Lyceum
+                                Rotterdam</a></span></div>
+                    <div class="line"><span class="ln">1</span><span class="lc">"AD ICT Service Management" at
+                            <a
+                                href="https://www.hogeschoolrotterdam.nl/opleidingen/associate-degree/ict-service-management/deeltijd/">Hogeschool
+                                Rotterdam</a></span></div>
+                </div>
+            </div>
+
+            <!--Project Management-->
+            <div class="item expandable">
+                <div class="item-label" data-expand><svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>Project Management</div>
+                <div class="expand-body">
+                    <div class="line">
+                        In my current job, I am responsible for the various projects
+                        that need to be carried out in the Cloud department.
+                        As a result, I have increasingly specialized in project management. I have already carried out
+                        several
+                        projects, including:
+                    </div>
+                    <div class="line"><span class="ln">0</span>
+                        <span class="lc">Migration of Exchange On-Premises to Exchange Online</span>
+                    </div>
+                    <div class="line"><span class="ln">1</span>
+                        <span class="lc">Tenant to Tenant migrations inside the Microsoft 365 ecosystem</span>
+                    </div>
+                    <div class="line"><span class="ln">2</span>
+                        <span class="lc">Implementing Intune for centralized endpoint management</span>
+                    </div>
+                    <div class="line"><span class="ln">3</span>
+                        <span class="lc">Phasing out a local server and full migration to Microsoft 365</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--Security & Huntress-->
+            <div class="item expandable">
+                <div class="item-label" data-expand><svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>Security & Huntress</div>
+                <div class="expand-body">
+                    <div class="line">
+                        I am very interested in security, which is why I am a member of the
+                        security team at AAD Automatisering. My
+                        responsibilities in this role include:
+                    </div>
+                    <div class="line"><span class="ln">0</span><span class="lc">Monitoring CVE's that apply to our
+                            customers</span>
+                    </div>
+                    <div class="line"><span class="ln">1</span><span class="lc">Investigations of security
+                            incidents</span></div>
+                    <div class="line"><span class="ln">2</span><span class="lc">Drafting Incident Reports for
+                            clients</span></div>
+                    <div class="line"><span class="ln">3</span><span class="lc">Performing Root Cause Analyses</span>
+                    </div>
+                    <div class="line"><span class="ln">4</span><span class="lc">Advising clients after security
+                            incidents</span></div>
+                    <div class="line">
+                        As part of my work at AAD Automatisering, I also oversaw the transition from Bitdefender to
+                        Huntress. Together with my colleagues, I carried out the migration and set up Huntress.
+                        I remain the primary point of contact for Huntress at AAD Automatisering and assist my
+                        colleagues with using this platform.
+                    </div>
+                </div>
+
+                <!--Microsoft 365 & Azure-->
+                <div class="item expandable">
+                    <div class="item-label" data-expand><svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>Microsoft 365 & Azure</div>
+                    <div class="expand-body">
+                        <div class="line">I have completed a certification in the field of Microsoft 365 and Azure:
+                        </div>
+                        <div class="line"><span class="ln">0</span><span class="lc">AZ-900: Azure Fundamentals</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--NinjaOne-->
+                <div class="item expandable">
+                    <div class="item-label" data-expand><svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>NinjaOne</div>
+                    <div class="expand-body">
+                        <div class="line">
+                            At AAD, I am primarily responsible for configuring our RMM system, NinjaOne.
+                            I maintain contact with NinjaOne, answer internal questions, and submit tickets to
+                            NinjaOne support.
+                            I am also responsible for configuring and ensuring the proper functioning of the various
+                            modules within
+                            NinjaOne, including Patch Management, Monitoring, and Remote Control.
+                        </div>
+                    </div>
+                </div>
+
+                <!--Acronis-->
+                <div class="item expandable">
+                    <div class="item-label" data-expand><svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>Acronis</div>
+                    <div class="expand-body">
+                        <div class="line">I have in-depth knowledge of Acronis Backup and have earned several
+                            certifications
+                            in this area, including:</div>
+                        <div class="line"><span class="ln">0</span><span class="lc">Cloud Tech Fundamentals</span></div>
+                        <div class="line"><span class="ln">1</span><span class="lc">Acronis Cloud Tech Associate
+                                Advanced
+                                Security</span></div>
+                        <div class="line"><span class="ln">2</span><span class="lc">Acronis Cloud Tech Associate
+                                Advanced
+                                Backup</span></div>
+                        <div class="line"><span class="ln">3</span><span class="lc">Cloud Tech Professional Microsoft
+                                365</span></div>
+                    </div>
+                </div>
+        </section>
+    </main>
+
+    <!--
+    ===========================================================================
+    FOOTER
+    Three social links + an auto-updating copyright year (set in js/script.js).
+    Logo colours are inverted per theme via CSS filters.
+    ===========================================================================
+  -->
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://www.linkedin.com/in/nathanverkerk">
+                <img class="icon-white-footer" src="../images/linkedin.png" alt="LinkedIn"></a>
+            <a href="https://github.com/Nathanymous">
+                <img class="icon-white-footer" src="../images/github.webp" alt="GitHub"></a>
+            <a href="https://www.credly.com/users/nathan-verkerk/badges/credly">
+                <img class="icon-credly-footer" src="../images/credly.png" alt="Credly"></a>
+        </div>
+
+        <!-- Year is injected by JS so it never goes stale -->
+        <p class="copyright">&#169; <span id="year"></span> Nathan Verkerk</p>
+    </footer>
+
+    <!-- Behaviour: theme switching, expand/collapse, copyright year -->
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

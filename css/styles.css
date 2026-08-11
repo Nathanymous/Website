@@ -15,7 +15,6 @@
      10. Responsive
    ========================================================================== */
 
-
 /* ==========================================================================
    1. RESET
    ========================================================================== */
@@ -28,7 +27,6 @@
   padding: 0;
 }
 
-
 /* ==========================================================================
    2. THEME VARIABLES
 
@@ -38,26 +36,26 @@
    ========================================================================== */
 
 :root {
-  --bg:         #ffffff;
-  --text:       #111111;
-  --muted:      #666666;
-  --border:     #d8d8d8;
-  --expand-bg:  #f5f5f5;
-  --line-num:   #bbbbbb;
-  --footer-bg:  #f2f2f2;
-  --green:      #3ecf8e;   /* accent — same in both themes */
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #666666;
+  --border: #d8d8d8;
+  --expand-bg: #f5f5f5;
+  --line-num: #bbbbbb;
+  --footer-bg: #f2f2f2;
+  --green: #3ecf8e;
+  /* accent — same in both themes */
 }
 
 body.dev-mode {
-  --bg:         #0c0c0c;
-  --text:       #e0e0e0;
-  --muted:      #777777;
-  --border:     #2a2a2a;
-  --expand-bg:  #161616;
-  --line-num:   #444444;
-  --footer-bg:  #111111;
+  --bg: #0c0c0c;
+  --text: #e0e0e0;
+  --muted: #777777;
+  --border: #2a2a2a;
+  --expand-bg: #161616;
+  --line-num: #858585;
+  --footer-bg: #111111;
 }
-
 
 /* ==========================================================================
    3. BASE
@@ -76,12 +74,25 @@ body {
   transition: background 0.45s ease, color 0.45s ease;
 }
 
+/* Links: green in both themes, with a slightly darker visited state. */
+body a {
+  color: #2e9c6b;
+}
+
+body a:visited {
+  color: #208457;
+}
+
+body a:hover {
+  color: #65dba8;
+}
 
 /* ==========================================================================
    4. HEADER
    ========================================================================== */
 
 header {
+  position: relative;
   padding: 2.2rem 2.5rem 1.2rem;
   text-align: center;
 }
@@ -104,6 +115,58 @@ header h1 .prefix {
   margin-right: 0.09em;
 }
 
+/* Language picker — fixed in the header's top-right corner. */
+.language-picker {
+  position: absolute;
+  top: 1.7rem;
+  right: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.language-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--green);
+}
+
+.language-picker select {
+  appearance: none;
+  min-width: 4.2rem;
+  padding: 0.45rem 1.7rem 0.45rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%233ecf8e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0.55rem center;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.45s ease, color 0.45s ease;
+}
+
+.language-picker select:hover,
+.language-picker select:focus-visible {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(62, 207, 142, 0.16);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* ==========================================================================
    5. BLINKING CURSOR
@@ -122,10 +185,16 @@ header h1 .prefix {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0; }
-}
 
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
 
 /* ==========================================================================
    6. MODE TOGGLE (PILL SWITCH)
@@ -178,11 +247,23 @@ body.dev-mode .toggle-pill {
 }
 
 /* 17px inset centres the icon exactly where the knob sits on that side */
-.pill-bg-chip   { right: 17px; opacity: 1; }
-.pill-bg-person { left:  17px; opacity: 0; }
+.pill-bg-chip {
+  right: 17px;
+  opacity: 1;
+}
 
-body.dev-mode .pill-bg-person { opacity: 1; }
-body.dev-mode .pill-bg-chip   { opacity: 0; }
+.pill-bg-person {
+  left: 17px;
+  opacity: 0;
+}
+
+body.dev-mode .pill-bg-person {
+  opacity: 1;
+}
+
+body.dev-mode .pill-bg-chip {
+  opacity: 0;
+}
 
 /* --- Sliding knob --- */
 
@@ -200,14 +281,16 @@ body.dev-mode .pill-bg-chip   { opacity: 0; }
   align-items: center;
   justify-content: center;
 
-  color: #111;   /* icon colour, inherited via currentColor */
+  color: #111;
+  /* icon colour, inherited via currentColor */
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s;
 }
 
 body.dev-mode .pill-circle {
   transform: translateX(69px);
   background: var(--green);
-  color: #111;   /* dark icon reads well on green */
+  color: #111;
+  /* dark icon reads well on green */
 }
 
 /* --- Icon inside the knob: show only the one for the current mode --- */
@@ -218,12 +301,21 @@ body.dev-mode .pill-circle {
   transition: color 0.4s;
 }
 
-.pill-circle-icon.icon-person { display: block; }
-.pill-circle-icon.icon-chip   { display: none; }
+.pill-circle-icon.icon-person {
+  display: block;
+}
 
-body.dev-mode .pill-circle-icon.icon-person { display: none; }
-body.dev-mode .pill-circle-icon.icon-chip   { display: block; }
+.pill-circle-icon.icon-chip {
+  display: none;
+}
 
+body.dev-mode .pill-circle-icon.icon-person {
+  display: none;
+}
+
+body.dev-mode .pill-circle-icon.icon-chip {
+  display: block;
+}
 
 /* ==========================================================================
    7. MAIN CONTENT — LIST ITEMS
@@ -238,8 +330,13 @@ main {
 }
 
 /* Only the section matching the current mode is visible */
-.section        { display: none; }
-.section.active { display: block; }
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
 
 .item {
   padding: 0.65rem 0;
@@ -292,7 +389,6 @@ main {
   opacity: 0.7;
 }
 
-
 /* ==========================================================================
    8. EXPANDABLE CODE BLOCKS
    Styled like a code editor: monospace, gutter line numbers, green rule.
@@ -319,6 +415,15 @@ main {
   gap: 1.2rem;
 }
 
+/* Allows for multi-line paragraphs in the code block, with a gap between them. */
+.expand-body .line .text {
+  flex: 1;
+}
+
+.expand-body .line .text p+p {
+  margin-top: 1rem;
+}
+
 /* Line-number gutter */
 .expand-body .ln {
   min-width: 1.4rem;
@@ -334,7 +439,6 @@ main {
   color: var(--text);
   transition: color 0.45s;
 }
-
 
 /* ==========================================================================
    9. FOOTER
@@ -402,12 +506,23 @@ body.dev-mode .icon-credly-footer {
   transition: color 0.45s;
 }
 
-
 /* ==========================================================================
    10. RESPONSIVE
    ========================================================================== */
 
 @media (max-width: 500px) {
-  header { padding: 1.5rem 1.2rem 0.8rem; }
-  main   { padding: 0.2rem 1.2rem 1.8rem; }
+
+  /* Make room for the picker above the centred logo on small screens. */
+  header {
+    padding: 3.7rem 1.2rem 0.8rem;
+  }
+
+  .language-picker {
+    top: 0.9rem;
+    right: 1.2rem;
+  }
+
+  main {
+    padding: 0.2rem 1.2rem 1.8rem;
+  }
 }

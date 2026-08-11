@@ -53,7 +53,7 @@ body.dev-mode {
   --muted: #777777;
   --border: #2a2a2a;
   --expand-bg: #161616;
-  --line-num: #444444;
+  --line-num: #858585;
   --footer-bg: #111111;
 }
 
@@ -72,6 +72,19 @@ body {
   flex-direction: column;
 
   transition: background 0.45s ease, color 0.45s ease;
+}
+
+/* Links: green in both themes, with a slightly darker visited state. */
+body a {
+  color: #2e9c6b;
+}
+
+body a:visited {
+  color: #208457;
+}
+
+body a:hover {
+  color: #65dba8;
 }
 
 /* ==========================================================================
@@ -407,7 +420,7 @@ main {
   flex: 1;
 }
 
-.expand-body .line .text p + p {
+.expand-body .line .text p+p {
   margin-top: 1rem;
 }
 
